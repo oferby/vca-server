@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Huawei Cloud</title>
+    <!--<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+    <!--<script src="js/cytoscape.min.js"></script>-->
+</head>
+
+<body>
+<img class="background" src="images\homepage.png"/>
+<img class="contact-us" src="images\contact-us.png" onclick="javascript:showChatbot()"/>
+<div id="chatbox-main">
+    <div id="chatbot-header"></div>
+    <div id="chatbot-body">
+        <div id="history"></div>
+    </div>
+    <div id="chatbot-footer"><input id="user-input" type="text"><input id="chatbot-send" type="button" value=">"></div>
+
+</div>
+</body>
+</html>
