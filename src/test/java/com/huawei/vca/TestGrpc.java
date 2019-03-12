@@ -31,7 +31,10 @@ public class TestGrpc {
 
         QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub = QuestionServiceGrpc.newBlockingStub(channel);
 
-        QuestionRequest request = QuestionRequest.newBuilder().setQuestion("this is my question").build();
+        QuestionRequest request = QuestionRequest.newBuilder()
+                .setQuestion("this is my question")
+                .addParagraphs("this is a paragraph")
+                .build();
         QuestionResponse questionResponse =
                 serviceBlockingStub.getQuestionResponse(request);
 
