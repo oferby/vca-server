@@ -5,6 +5,8 @@ import com.huawei.vca.question.QuestionResponse;
 import com.huawei.vca.question.QuestionServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
 
 @Controller
 public class ParagraphFinderControllerImpl implements ParagraphFinderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ParagraphFinderControllerImpl.class);
 
     @Value("${qa.grpc.server.ip}")
     private String qaServerIp;

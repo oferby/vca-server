@@ -8,9 +8,12 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.ExecutorService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,6 +25,9 @@ public class TestGrpc {
     @Value("${qa.grpc.server.port}")
     private int qaServerPort;
 
+    @Autowired
+    private ExecutorService executorService;
+
     @Test
     public void testGrpc() {
 
@@ -29,17 +35,35 @@ public class TestGrpc {
                 .usePlaintext()
                 .build();
 
-        QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub = QuestionServiceGrpc.newBlockingStub(channel);
+        for (int i = 0; i < 10; i++) {
 
-        QuestionRequest request = QuestionRequest.newBuilder()
-                .setQuestion("this is my question")
-                .addParagraphs("this is a paragraph")
-                .build();
-        QuestionResponse questionResponse =
-                serviceBlockingStub.getQuestionResponse(request);
+            int finalI = i;
+            executorService.execute(() -> {
 
-        assert questionResponse != null;
-        System.out.println(questionResponse.toString());
+                QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub = QuestionServiceGrpc.newBlockingStub(channel);
+
+                QuestionRequest request = QuestionRequest.newBuilder()
+                        .setQuestion("this is my" + finalI + " question")
+                        .addParagraphs("this is the " + finalI + " paragraph")
+                        .build();
+                QuestionResponse questionResponse =
+                        serviceBlockingStub.getQuestionResponse(request);
+
+                assert questionResponse != null;
+                System.out.println(questionResponse.toString());
+
+
+            });
+
+
+        }
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
