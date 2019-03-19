@@ -1,6 +1,8 @@
 package com.huawei.vca;
 
 import com.huawei.vca.search.RequestFactory;
+import com.huawei.vca.search.SearchController;
+import com.huawei.vca.search.SearchResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +23,15 @@ import java.util.Map;
 public class TestElesticSearch {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RequestFactory requestFactory;
 
     @Autowired
-    private RequestFactory requestFactory;
+    private SearchController searchController;
 
     @Test
     public void restTemplateWithBody() throws URISyntaxException {
 
         RestTemplate restTemplateWithBody = requestFactory.getRestTemplate();
-
-
 
         Map<String, String> matchPhrase = new HashMap<>();
         matchPhrase.put("text", "new text");
@@ -60,4 +60,20 @@ public class TestElesticSearch {
 
     }
 
+
+    @Test
+    public void testSearchController(){
+
+        List<SearchResult> paragraphList = searchController.getRElatedParagraphList("what is Content Moderation");
+
+        assert !paragraphList.isEmpty();
+
+        for (SearchResult searchResult : paragraphList) {
+            System.out.println(searchResult.toString());
+        }
+
+
+
+
+    }
 }

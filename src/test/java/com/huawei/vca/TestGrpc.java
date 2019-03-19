@@ -90,7 +90,7 @@ public class TestGrpc {
                         serviceBlockingStub.getQuestionResponse(request);
 
                 assert questionResponse != null;
-                System.out.println(finalI + ": " + questionResponse.toString());
+                System.out.println(finalI + ":\n" + questionResponse.toString());
 
             });
 
