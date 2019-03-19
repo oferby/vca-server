@@ -64,7 +64,7 @@ public class TestElesticSearch {
     @Test
     public void testSearchController(){
 
-        List<SearchResult> paragraphList = searchController.getRElatedParagraphList("what is Content Moderation");
+        List<SearchResult> paragraphList = searchController.getRelatedParagraphList("what is Content Moderation");
 
         assert !paragraphList.isEmpty();
 

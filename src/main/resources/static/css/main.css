@@ -30,6 +30,11 @@
     height: 10px;
 }
 
+#chatbot-body {
+    overflow: auto;
+    height: 450px;
+}
+
 #chatbot-footer {
     display: table;
     background-color: #bcbaba;

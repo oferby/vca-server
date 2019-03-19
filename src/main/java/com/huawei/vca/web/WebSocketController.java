@@ -1,6 +1,7 @@
 package com.huawei.vca.web;
 
 import com.huawei.vca.message.Dialogue;
+import com.huawei.vca.qa.QuestionAndAnswerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,16 @@ public class WebSocketController {
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private QuestionAndAnswerController questionAndAnswerController;
+
     @MessageMapping("/parseDialogue")
     public void getIntentRequest(Dialogue dialogue) {
 
         logger.debug("got new user input: " + dialogue.getText());
+
+        String answer = questionAndAnswerController.getAnswer(dialogue.getText());
+        dialogue.setText(answer);
         this.sendResponse(dialogue);
 
     }
