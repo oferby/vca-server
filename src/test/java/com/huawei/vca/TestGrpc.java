@@ -35,7 +35,7 @@ public class TestGrpc {
                 .usePlaintext()
                 .build();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
 
             int finalI = i;
             executorService.execute(() -> {
@@ -50,11 +50,9 @@ public class TestGrpc {
                         serviceBlockingStub.getQuestionResponse(request);
 
                 assert questionResponse != null;
-                System.out.println(questionResponse.toString());
-
+                System.out.println(finalI + ": " + questionResponse.toString());
 
             });
-
 
         }
 
@@ -66,4 +64,44 @@ public class TestGrpc {
 
     }
 
+    @Test
+    public void testMultipleParagraphs() {
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(qaServerIp, qaServerPort)
+                .usePlaintext()
+                .build();
+
+        for (int i = 0; i < 4; i++) {
+
+            int finalI = i;
+            executorService.execute(() -> {
+
+                QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub = QuestionServiceGrpc.newBlockingStub(channel);
+
+                QuestionRequest.Builder builder = QuestionRequest.newBuilder()
+                        .setQuestion("this is my" + finalI + " question");
+
+                for (int j = 0; j < 4; j++) {
+                    builder.addParagraphs("this is the " + finalI + " paragraph_" + j);
+                }
+
+                QuestionRequest request = builder.build();
+                QuestionResponse questionResponse =
+                        serviceBlockingStub.getQuestionResponse(request);
+
+                assert questionResponse != null;
+                System.out.println(finalI + ": " + questionResponse.toString());
+
+            });
+
+        }
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
