@@ -104,4 +104,30 @@ public class TestGrpc {
 
 
     }
+
+    @Test
+    public void testMultipleParagraphsReal() {
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(qaServerIp, qaServerPort)
+                .usePlaintext()
+                .build();
+
+        QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub = QuestionServiceGrpc.newBlockingStub(channel);
+        QuestionRequest.Builder builder = QuestionRequest.newBuilder()
+                .setQuestion("is this a test?");
+
+        builder.addParagraphs("");
+        builder.addParagraphs("this is a test paragraph.");
+        builder.addParagraphs("the cancellation meant the sacking of 70 staff and millions of pounds");
+        builder.addParagraphs("this is unrelated paragraph");
+
+        QuestionRequest request = builder.build();
+        QuestionResponse questionResponse =
+                serviceBlockingStub.getQuestionResponse(request);
+
+        assert questionResponse != null;
+        System.out.println(questionResponse.toString());
+
+
+    }
 }
