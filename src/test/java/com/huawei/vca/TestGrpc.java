@@ -116,10 +116,14 @@ public class TestGrpc {
         QuestionRequest.Builder builder = QuestionRequest.newBuilder()
                 .setQuestion("is this a test?");
 
-        builder.addParagraphs("");
         builder.addParagraphs("this is a test paragraph.");
         builder.addParagraphs("the cancellation meant the sacking of 70 staff and millions of pounds");
         builder.addParagraphs("this is unrelated paragraph");
+
+        int addParagraphs = 10 - builder.getParagraphsCount();
+        for (int i = 0; i < addParagraphs; i++) {
+            builder.addParagraphs("EMPTY EMPTY EMPTY EMPTY EMPTY");
+        }
 
         QuestionRequest request = builder.build();
         QuestionResponse questionResponse =
