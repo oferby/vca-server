@@ -38,7 +38,7 @@ public class ParagraphFinderControllerImpl implements ParagraphFinderController 
 
         QuestionResponse response = serviceBlockingStub.getQuestionResponse(request);
 
-        return response.getParagraph();
+        return paragraphs[response.getArgmax()];
     }
 
     @PostConstruct

@@ -34,7 +34,7 @@ public class TestElesticSearch {
         RestTemplate restTemplateWithBody = requestFactory.getRestTemplate();
 
         Map<String, String> matchPhrase = new HashMap<>();
-        matchPhrase.put("text", "new text");
+        matchPhrase.put("questions", "ping my ecs");
         Map<String, Map<String, String>> match = new HashMap<>();
         match.put("match", matchPhrase);
 
@@ -64,16 +64,13 @@ public class TestElesticSearch {
     @Test
     public void testSearchController(){
 
-        List<SearchResult> paragraphList = searchController.getRelatedParagraphList("what is Content Moderation");
+        List<SearchResult> paragraphList = searchController.getRelatedParagraphList("how do i ping my ecs?");
 
         assert !paragraphList.isEmpty();
 
         for (SearchResult searchResult : paragraphList) {
             System.out.println(searchResult.toString());
         }
-
-
-
 
     }
 }

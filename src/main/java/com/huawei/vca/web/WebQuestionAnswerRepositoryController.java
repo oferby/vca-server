@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("qa")
+@RequestMapping("data/qa")
 public class WebQuestionAnswerRepositoryController {
 
     @Autowired

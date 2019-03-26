@@ -35,7 +35,7 @@ public class ElasticSearchController implements SearchController{
         RestTemplate restTemplateWithBody = requestFactory.getRestTemplate();
 
         Map<String, String> matchPhrase = new HashMap<>();
-        matchPhrase.put("text", question);
+        matchPhrase.put("questions", question);
         Map<String, Map<String, String>> match = new HashMap<>();
         match.put("match", matchPhrase);
 
@@ -55,6 +55,7 @@ public class ElasticSearchController implements SearchController{
             uri = new URI("http://"+serverIp+":"+serverPost+"/qa/_search");
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }
 
         ResponseEntity<Map> exchange = restTemplateWithBody.exchange(uri,
@@ -70,7 +71,7 @@ public class ElasticSearchController implements SearchController{
 
         List hits = (List) ((Map) result.get("hits")).get("hits");
         for (Object hit : hits) {
-            String text = (String) ((Map) ((Map) hit).get("_source")).get("text");
+            String text = (String) ((Map) ((Map) hit).get("_source")).get("paragraph");
             Double score = (Double) ((Map) hit).get("_score");
             paragraphList.add(new SearchResult(score, text));
         }
