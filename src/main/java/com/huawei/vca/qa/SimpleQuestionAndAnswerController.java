@@ -1,6 +1,7 @@
 package com.huawei.vca.qa;
 
 import com.huawei.vca.grpc.ParagraphFinderController;
+import com.huawei.vca.grpc.ParagraphResult;
 import com.huawei.vca.search.SearchController;
 import com.huawei.vca.search.SearchResult;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
 
     private static final int numOfParagraphs = 10;
 
+    private static final String noAnswerResponse = "Sorry, I have no answer to this question...";
+
     @Override
     public String getAnswer(String question) {
 
@@ -30,7 +33,7 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
         int size = relatedParagraphList.size();
 
         if (size == 0) {
-            return "Sorry, I have no answer to this question...";
+            return noAnswerResponse;
         }
 
         String[] paragraps = new String[numOfParagraphs];
@@ -48,9 +51,13 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
 
         }
 
+        ParagraphResult paragraphResult = paragraphFinderController.getParagraph(question, paragraps);
+        logger.debug("**** " + paragraphResult + " *****");
 
-        String paragraph = paragraphFinderController.getParagraph(question, paragraps);
-        logger.debug("**** " + paragraph + " *****");
-        return paragraph;
+        if (paragraphResult.getProbability() < 0.7 ) {
+            return noAnswerResponse;
+        }
+
+        return paragraphResult.getParagraph();
     }
 }

@@ -26,7 +26,7 @@ public class ParagraphFinderControllerImpl implements ParagraphFinderController 
     private QuestionServiceGrpc.QuestionServiceBlockingStub serviceBlockingStub;
 
     @Override
-    public String getParagraph(String question, String[] paragraphs) {
+    public ParagraphResult getParagraph(String question, String[] paragraphs) {
 
         QuestionRequest.Builder builder = QuestionRequest.newBuilder().setQuestion(question);
 
@@ -38,7 +38,10 @@ public class ParagraphFinderControllerImpl implements ParagraphFinderController 
 
         QuestionResponse response = serviceBlockingStub.getQuestionResponse(request);
 
-        return paragraphs[response.getArgmax()];
+        String paragraph = paragraphs[response.getArgmax()];
+
+        return new ParagraphResult(paragraph, response.getProbability(response.getArgmax()));
+
     }
 
     @PostConstruct
