@@ -30,7 +30,6 @@ function connect() {
 
 function showChatbot() {
 
-    console.log('clicked!');
     visible = !visible;
     if (visible) {
         $('#chatbox-main').show();
@@ -42,13 +41,22 @@ function showChatbot() {
 
 function addUserInput(text) {
 
-    $('#history').append('<div class="user-text-line"><span class="user-text">'+text+'</span></div>')
+    $('#history').append('<div class="user-text-line"><span class="user-text">'+text+'</span></div>');
 
 }
 
+
+function scroll_window(){
+    var element = document.getElementById("chatbot-body");
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+
+}
+
+
 function addBotResponse(text){
 
-    $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>')
+    $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>');
+    scroll_window();
 }
 
 $(document).ready( function(){
@@ -58,9 +66,10 @@ $(document).ready( function(){
     $('#user-input').keyup(function(e){
         if(e.keyCode == 13)
         {
-            var userInput = $('#user-input').val()
+            var userInput = $('#user-input').val();
             $('#user-input').val('');
             addUserInput(userInput);
+            scroll_window();
             sendIntent(userInput)
             console.log('user entered: ' + userInput);
         }
