@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -32,9 +33,11 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
         List<SearchResult> relatedParagraphList = searchController.getRelatedParagraphList(question);
         int size = relatedParagraphList.size();
 
-        if (size == 0) {
+        if (size == 0)
             return noAnswerResponse;
-        }
+
+        if (size > 10)
+            throw new NotImplementedException();
 
         String[] paragraps = new String[numOfParagraphs];
 
@@ -54,7 +57,7 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
         ParagraphResult paragraphResult = paragraphFinderController.getParagraph(question, paragraps);
         logger.debug("**** " + paragraphResult + " *****");
 
-        if (paragraphResult.getProbability() < 0.7 ) {
+        if (paragraphResult.getProbability() < 0.7) {
             return noAnswerResponse;
         }
 

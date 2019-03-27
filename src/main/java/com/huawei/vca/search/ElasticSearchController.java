@@ -34,15 +34,22 @@ public class ElasticSearchController implements SearchController{
 
         RestTemplate restTemplateWithBody = requestFactory.getRestTemplate();
 
+        List<Map> mustList = new ArrayList<>();
+
         Map<String, String> matchPhrase = new HashMap<>();
         matchPhrase.put("questions", question);
         Map<String, Map<String, String>> match = new HashMap<>();
         match.put("match", matchPhrase);
+        mustList.add(match);
 
-        List<Map> must = new ArrayList<>();
-        must.add(match);
+        matchPhrase = new HashMap<>();
+        matchPhrase.put("paragraph", question);
+        match = new HashMap<>();
+        match.put("match", matchPhrase);
+        mustList.add(match);
+
         Map<String, List> bool = new HashMap<>();
-        bool.put("must", must);
+        bool.put("must", mustList);
         Map<String, Map> query = new HashMap<>();
         query.put("bool", bool);
         Map<String, Map> body = new HashMap<>();
