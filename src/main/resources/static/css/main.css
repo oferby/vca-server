@@ -58,7 +58,9 @@
 }
 
 #chatbot-send {
-    vertical-align: middle
+    vertical-align: middle;
+    cursor: pointer;
+
 }
 
 .user-text-line {
@@ -66,10 +68,18 @@
     background-color: #eee;
     margin-right: 90px;
     margin-bottom: 5px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 2px;
     border-radius: 5px;
+    vertical-align: middle;
+}
 
+.feedback-btn {
+    height: 25px;
+    vertical-align: middle;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .bot-text-line {
@@ -81,4 +91,9 @@
     padding-left: 2px;
     padding-right: 2px;
     border-radius: 5px;
+}
+
+.bot-text {
+    vertical-align: middle;
+    margin-right: 25px;
 }

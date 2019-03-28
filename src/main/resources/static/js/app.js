@@ -56,6 +56,10 @@ function scroll_window(){
 function addBotResponse(text){
 
     $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>');
+
+    var urlUp = 'urlUp';
+    var urlDown = 'urlDown';
+    $('#history').append('<div class="bot-text-line"><span class="bot-text">Was this helpful?</span><img class="feedback-btn" src="/images/up.png" onclick="javascript:sendFeedback('+urlUp+')"><img src="/images/down.png" class="feedback-btn" onclick="javascript:sendFeedback('+urlDown+')"></div>');
     scroll_window();
 }
 
