@@ -39,26 +39,39 @@ public class TestMongoDB {
 
         QuestionAnswerEntity entity = new QuestionAnswerEntity();
         String answer = "this is the answer";
-        entity.setText(answer);
+        entity.setParagraph(answer);
         entity.addQuestion("this is the first question");
         entity.addQuestion("this is the second question");
 
         QuestionAnswerEntity saved = webQuestionAnswerRepositoryController.save(entity);
 
-        assert saved != null && saved.getId() != null && saved.getText().equals(answer);
+        assert saved != null && saved.getId() != null && saved.getParagraph().equals(answer);
 
-        saved.setText("another answer");
+        saved.setParagraph("another answer");
         saved.addQuestion("another question");
 
         QuestionAnswerEntity update = webQuestionAnswerRepositoryController.update(saved, saved.getId());
 
-        assert update != null && !update.getText().equals(answer) && update.getQuestions().size() == 3;
+        assert update != null && !update.getParagraph().equals(answer) && update.getQuestions().size() == 3;
 
         String idToDelete = update.getId();
         webQuestionAnswerRepositoryController.delete(idToDelete);
 
         Optional<QuestionAnswerEntity> shouldNotBeFound = webQuestionAnswerRepositoryController.getById(idToDelete);
         assert !shouldNotBeFound.isPresent();
+
+    }
+
+    @Test
+    public void testQuery() {
+
+        List<QuestionAnswerEntity> all = questionAnswerRepository.findAll();
+
+        QuestionAnswerEntity entity = all.get(0);
+        QuestionAnswerEntity byParagraph = questionAnswerRepository.findByParagraph(entity.getParagraph());
+
+        assert byParagraph.equals(entity);
+
 
     }
 

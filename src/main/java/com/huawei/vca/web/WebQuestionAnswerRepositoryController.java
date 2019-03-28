@@ -36,7 +36,7 @@ public class WebQuestionAnswerRepositoryController {
         return questionAnswerRepository.findById(id).map(
                 questionAnswer -> {
                     questionAnswer.setQuestions(newQuestionAnswer.getQuestions());
-                    questionAnswer.setText(newQuestionAnswer.getText());
+                    questionAnswer.setParagraph(newQuestionAnswer.getParagraph());
                     return questionAnswer;
                 }).orElseThrow(() ->
                 new RuntimeException("could not find requested id")
