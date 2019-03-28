@@ -21,7 +21,7 @@ function connect() {
             dialogue  = JSON.parse(hint.body);
 //            if (res.status == 'DONE') {
 //            }
-            addBotResponse(dialogue.text);
+            addBotResponse(dialogue);
 
         });
 
@@ -52,15 +52,34 @@ function scroll_window(){
 
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-function addBotResponse(text){
+function addBotResponse(dialogue){
 
-    $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>');
 
-    var urlUp = 'urlUp';
-    var urlDown = 'urlDown';
-    $('#history').append('<div class="bot-text-line"><span class="bot-text">Was this helpful?</span><img class="feedback-btn" src="/images/up.png" onclick="javascript:sendFeedback('+urlUp+')"><img src="/images/down.png" class="feedback-btn" onclick="javascript:sendFeedback('+urlDown+')"></div>');
-    scroll_window();
+
+    async function displayWait() {
+
+        $('#history').append('<div id="waiting-div" class="bot-text-line"><img class="waiting-gif" src="/images/sa.gif"></div>');
+        scroll_window();
+        await sleep(2000);
+        $('#waiting-div').remove();
+
+         var text = dialogue.text
+         $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>');
+
+         var urlUp = dialogue.feedbackUrl+'/up';
+         var urlDown = dialogue.feedbackUrl+'/down';
+
+        $('#history').append('<div class="bot-text-line"><span class="bot-text">Was this helpful?</span><img class="feedback-btn" src="/images/up.png" onclick="javascript:sendFeedback('+urlUp+')"><img src="/images/down.png" class="feedback-btn" onclick="javascript:sendFeedback('+urlDown+')"></div>');
+        scroll_window();
+
+    }
+
+    displayWait()
+
 }
 
 $(document).ready( function(){

@@ -12,6 +12,7 @@ public class Dialogue {
     private int negativeCount;
     private Set<String> bagOfWords;
     private Set<String> observables;
+    private String feedbackUrl;
 
     public UUID getSessionId() {
         return sessionId;
@@ -114,6 +115,14 @@ public class Dialogue {
     public void clearObservables() {
         if (observables != null)
             observables.clear();
+    }
+
+    public void setFeedbackUrl(String feedbackUrl) {
+        this.feedbackUrl = feedbackUrl;
+    }
+
+    public String getFeedbackUrl() {
+        return feedbackUrl;
     }
 
     @Override
