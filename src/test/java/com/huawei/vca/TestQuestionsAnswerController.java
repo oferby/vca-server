@@ -32,5 +32,15 @@ public class TestQuestionsAnswerController {
 
     }
 
+    @Test
+    public void testAddQuestion(){
+
+        String id = "5c9c8faa1ac8c07732937377";
+        String question = "what is Cloud Server Backup Service?";
+
+        questionAndAnswerController.addQuestion(id, question);
+
+
+    }
 
 }

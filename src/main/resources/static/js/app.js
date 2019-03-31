@@ -1,7 +1,13 @@
 var visible = false
+var greetingSent = false;
 
 var intent = {};
 var dialogue = {};
+
+function getTime() {
+    var today = new Date();
+    return today.getHours() + ":" + today.getMinutes();
+}
 
 function sendIntent(userInput){
     intent.text = userInput;
@@ -32,22 +38,30 @@ function showChatbot() {
 
     visible = !visible;
     if (visible) {
-        $('#chatbox-main').show();
-    } else {
-        $('#chatbox-main').hide();
-    }
+        $('#smartbot').show();
 
+        async function displayGreeting() {
+            await sleep(1000);
+            addBotText('Hello, how may I help you?')
+            greetingSent = true;
+        }
+
+        if (!greetingSent) {
+            displayGreeting()
+        }
+    } else {
+        $('#smartbot').hide();
+    }
 }
 
 function addUserInput(text) {
 
-    $('#history').append('<div class="user-text-line"><span class="user-text">'+text+'</span></div>');
+    $('#smartbotBody').append('<div class="messageBox outgoing"><div class="messageText">'+text+'</div><div class="messageTime">'+getTime()+'</div></div>');
 
 }
 
-
 function scroll_window(){
-    var element = document.getElementById("chatbot-body");
+    var element = document.getElementById("smartbotBody");
     element.scrollTop = element.scrollHeight - element.clientHeight;
 
 }
@@ -56,24 +70,30 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function addBotText(text) {
+
+    $('#smartbotBody').append('<div class="messageBox incoming"><div class="messageText">'+text+'</div><div class="messageTime">'+getTime()+'</div></div>');
+
+}
+
+
+
 function addBotResponse(dialogue){
-
-
 
     async function displayWait() {
 
-        $('#history').append('<div id="waiting-div" class="bot-text-line"><img class="waiting-gif" src="/images/sa.gif"></div>');
+        $('#smartbotBody').append('<div id="waiting-div" class="messageBox incoming"><div class="messageText"><div class="waiting"><img src="/images/waiting.gif" alt="Enter"></div></div></div>');
         scroll_window();
-        await sleep(2000);
+        await sleep(1500);
         $('#waiting-div').remove();
 
          var text = dialogue.text
-         $('#history').append('<div class="bot-text-line"><span class="bot-text">'+text+'</span></div>');
+         addBotText(text);
 
-         var urlUp = dialogue.feedbackUrl+'/up';
-         var urlDown = dialogue.feedbackUrl+'/down';
-
-        $('#history').append('<div class="bot-text-line"><span class="bot-text">Was this helpful?</span><img class="feedback-btn" src="/images/up.png" onclick="javascript:sendFeedback('+urlUp+')"><img src="/images/down.png" class="feedback-btn" onclick="javascript:sendFeedback('+urlDown+')"></div>');
+//         var urlUp = dialogue.feedbackUrl+'/up';
+//         var urlDown = dialogue.feedbackUrl+'/down';
+//
+//        $('#history').append('<div class="bot-text-line"><span class="bot-text">Was this helpful?</span><img class="feedback-btn" src="/images/up.png" onclick="javascript:sendFeedback('+urlUp+')"><img src="/images/down.png" class="feedback-btn" onclick="javascript:sendFeedback('+urlDown+')"></div>');
         scroll_window();
 
     }

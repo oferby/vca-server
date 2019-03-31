@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
 @Controller
@@ -83,6 +84,30 @@ public class SimpleQuestionAndAnswerController implements QuestionAndAnswerContr
         logToHistory(question, paragraphResult.getParagraph(), paragraphResult.getProbability());
 
         return paragraphResult.getParagraph();
+    }
+
+    @Override
+    public void addQuestion(String id, String question) {
+
+        Optional<QuestionAnswerEntity> optionalAnswerEntity = questionAnswerRepository.findById(id);
+
+        optionalAnswerEntity.ifPresent(questionAnswerEntity -> {
+            questionAnswerEntity.addQuestion(question);
+            questionAnswerRepository.save(questionAnswerEntity);
+        });
+
+    }
+
+    @Override
+    public void addQuestionNot(String id, String question) {
+
+        Optional<QuestionAnswerEntity> optionalAnswerEntity = questionAnswerRepository.findById(id);
+
+        optionalAnswerEntity.ifPresent(questionAnswerEntity -> {
+            questionAnswerEntity.addQuestionNot(question);
+            questionAnswerRepository.save(questionAnswerEntity);
+        });
+
     }
 
 
