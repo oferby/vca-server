@@ -34,7 +34,10 @@ public class WebSocketController {
 
         String answer = questionAndAnswerController.getAnswer(dialogue.getText());
         dialogue.setText(answer);
+
+        //        change this
         dialogue.setFeedbackUrl("http://feedback/5982hkjhkj29054820934820");
+
         this.sendResponse(dialogue);
 
     }

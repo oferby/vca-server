@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ElasticSearchController implements SearchController{
+public class ElasticSearchController implements SearchController {
 
     @Autowired
     private RequestFactory requestFactory;
@@ -34,24 +34,11 @@ public class ElasticSearchController implements SearchController{
 
         RestTemplate restTemplateWithBody = requestFactory.getRestTemplate();
 
-        List<Map> mustList = new ArrayList<>();
+        MultiMatchSearchQuery multiMatch = new MultiMatchSearchQuery();
+        multiMatch.setQuery(question);
+        Map<String, MultiMatchSearchQuery> query = new HashMap<>();
+        query.put("multi_match", multiMatch);
 
-        Map<String, String> matchPhrase = new HashMap<>();
-        matchPhrase.put("questions", question);
-        Map<String, Map<String, String>> match = new HashMap<>();
-        match.put("match", matchPhrase);
-        mustList.add(match);
-
-        matchPhrase = new HashMap<>();
-        matchPhrase.put("paragraph", question);
-        match = new HashMap<>();
-        match.put("match", matchPhrase);
-        mustList.add(match);
-
-        Map<String, List> bool = new HashMap<>();
-        bool.put("must", mustList);
-        Map<String, Map> query = new HashMap<>();
-        query.put("bool", bool);
         Map<String, Map> body = new HashMap<>();
         body.put("query", query);
 
@@ -59,7 +46,7 @@ public class ElasticSearchController implements SearchController{
         headers.setContentType(MediaType.APPLICATION_JSON);
         URI uri = null;
         try {
-            uri = new URI("http://"+serverIp+":"+serverPost+"/qa/_search");
+            uri = new URI("http://" + serverIp + ":" + serverPost + "/qa/_search");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -70,7 +57,7 @@ public class ElasticSearchController implements SearchController{
                 new HttpEntity<>(body, headers),
                 Map.class);
 
-        List<SearchResult>paragraphList = new ArrayList<>();
+        List<SearchResult> paragraphList = new ArrayList<>();
         Map result = exchange.getBody();
         if (result == null || !result.containsKey("hits")) {
             return paragraphList;
