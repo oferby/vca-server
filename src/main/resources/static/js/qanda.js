@@ -1,50 +1,61 @@
 var qa_data;
+var qa_paragraph;
+var qa_questions;
+var index = 0;
+var app;
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Hello Vue from js!'
-  }
-})
 
-var app5 = new Vue({
-  el: '#app-5',
-  data: {
-    message: 'Hello Vue.js!'
-  },
-  methods: {
-    reverseMessage: function () {
-      this.message = this.message.split('').reverse().join('')
+function next() {
+
+    if (qa_data.length > index + 1 ) {
+        index+=1;
+        qa_paragraph.text = qa_data[index].paragraph;
+        qa_questions.list = qa_data[index].questions;
     }
-  }
+
+}
+
+function back() {
+    if (index > 0) {
+        index-=1;
+        qa_paragraph.text = qa_data[index].paragraph;
+        qa_questions.list = qa_data[index].questions;
+
+
+    }
+
+}
+
+function update() {
+
+    var l = qa_data.length
+
+}
+
+
+Vue.component('qa-item', {
+  props: ['qa_par'],
+  template: '<div class="qa-item"><textarea class="qa_paragraph" v-model="qa_par.text"></textarea></div>'
 })
 
+Vue.component('qa-questions', {
+    props: ['qa_q'],
+    template: '<div><textarea class="qa_questions" v-model="qa_q" placeholder="Write your question here."></textarea><button v-on:click="$emit(\'remove\')">Remove</button></div>'
 
-var app6 = new Vue({
-  el: '#app-6',
-  data: {
-    message: 'Hello Vue!'
-  }
 })
-
-
-Vue.component('todo-item', {
-  props: ['todo'],
-  template: '<li>{{ todo.paragraph }} {{todo.id}}</li>'
-})
-
 
 
 function success(data){
     console.log( "success!" );
-
     qa_data = data;
+    qa_paragraph = {text: qa_data[index].paragraph}
+    qa_questions = {list : qa_data[index].questions}
 
-    var app7 = new Vue({
-      el: '#app-7',
+    app = new Vue({
+      el: '#app',
       data: {
-        qandaList: qa_data
-
+        qap: qa_paragraph,
+        qaq: qa_questions
       }
     })
 
@@ -55,6 +66,7 @@ $( document ).ready(function() {
 
     $.ajax({
       dataType: "json",
+//      url: "http://0f7e4450.ngrok.io/data/qa",
       url: "http://localhost:8080/data/qa",
       success: success
     });
