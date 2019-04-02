@@ -13,11 +13,14 @@
 <div id="app">
     <qa-item v-bind:qa_par="qap"></qa-item>
     <qa-questions
-            v-for = "q in qa_questions.list"
+            v-for = "(q, index) in qa_questions.list"
             v-bind:qa_q.sync="q"
             v-on:remove="qa_questions.list.splice(index, 1)"
             v-on:update="qa_questions.list[index] = $event"
     ></qa-questions>
+    <qa-new-question
+        v-on:add="qa_questions.list.push($event)"
+    ></qa-new-question>
     <div>
         <input type="button" value="<" onclick="javascript:back()">
         <input type="button" value=">" onclick="javascript:next()">
