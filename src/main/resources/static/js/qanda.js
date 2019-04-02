@@ -40,7 +40,7 @@ Vue.component('qa-item', {
 
 Vue.component('qa-questions', {
     props: ['qa_q'],
-    template: '<div><textarea class="qa_questions" v-model="qa_q" placeholder="Write your question here."></textarea><button v-on:click="$emit(\'remove\')">Remove</button></div>'
+    template: '<div><textarea class="qa_questions" v-model="qa_q" placeholder="Write your question here."></textarea><button v-on:click="$emit(\'remove\')">X</button><button v-on:click="$emit(\'update\', qa_q)">V</button></div>'
 
 })
 
@@ -67,7 +67,7 @@ $( document ).ready(function() {
     $.ajax({
       dataType: "json",
 //      url: "http://0f7e4450.ngrok.io/data/qa",
-      url: "http://localhost:8080/data/qa",
+      url: "http://10.100.99.123:8080/data/qa",
       success: success
     });
 
