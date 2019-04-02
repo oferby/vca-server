@@ -28,7 +28,11 @@ function back() {
 
 function update() {
 
-    var l = qa_data.length
+    var id = qa_data[index].id;
+    var jsonData = JSON.stringify(qa_data[index]);
+
+    var url = 'http://10.100.99.123:8080/data/qa/' + id;
+    updateData(url, jsonData, successAfterUpdate);
 
 }
 
@@ -61,8 +65,28 @@ function success(data){
 
 }
 
-$( document ).ready(function() {
-    console.log( "ready!" );
+function successAfterUpdate(data) {
+
+    console.log( "getting updated data from server." );
+
+}
+
+
+function updateData(url, data, callback) {
+
+    $.ajax({
+        dataType: "json",
+        processData: false,
+        contentType: 'application/json',
+        url: url,
+        data: data,
+        method: "PUT",
+        success: callback
+    });
+
+}
+
+function getData() {
 
     $.ajax({
       dataType: "json",
@@ -71,4 +95,9 @@ $( document ).ready(function() {
       success: success
     });
 
+};
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    getData();
 });
