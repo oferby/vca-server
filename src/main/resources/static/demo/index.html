@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>@import url('/fonts/Roboto/Roboto-regular.ttf');</style>
+
+    <script src="js/demo-app.js"></script>
+    <title>Huawei Cloud</title>
+</head>
+<body>
+<img class="background" src="\images\homepage.png"/>
+<img class="contact-us" src="\images\contact-us.png" onclick="javascript:showChatbot()"/>
+
+
+<div id="smartbot">
+    <div id="smartbotHeader">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="logo"></div>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" class="btn btn-secondary buttonClose" onclick="javascript:showChatbot()"><img src="/images/close.png"
+                                                                                     alt="Close"></button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="smartbotBody"></div>
+
+    <div id="smartbotFooter" style="padding-top:10px">
+        <div style="float: left; margin-left: 10px; width: 300px;"><input id='user-input' type="text"
+                                                                          class="form-control inputboxcustom"
+                                                                          placeholder="Your question..."></div>
+        <div style="float: right; padding-right: 18px;">
+            <button type="button" class="btn btn-secondary buttonEnter"><img src="/images/enter.png" alt="Enter">
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

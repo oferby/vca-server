@@ -1,14 +1,13 @@
-package com.huawei.vca.web;
+package com.huawei.vca.web.demo;
 
 import com.huawei.vca.chat.ChatRequest;
 import com.huawei.vca.chat.ChatResponse;
 import com.huawei.vca.chat.ChatServiceGrpc;
+import com.huawei.vca.message.Dialogue;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 
@@ -32,14 +31,15 @@ public class ChatbotDemoRasaController {
         serviceBlockingStub = ChatServiceGrpc.newBlockingStub(channel);
     }
 
-    @GetMapping
-    public String getResponse(String request) {
+    @PostMapping
+    public Dialogue getResponse(@RequestBody Dialogue dialogue) {
 
-        ChatRequest chatRequest = ChatRequest.newBuilder().setText(request).build();
+        ChatRequest chatRequest = ChatRequest.newBuilder().setText(dialogue.getText()).build();
 
         ChatResponse chatResponse = serviceBlockingStub.getChatResponse(chatRequest);
 
-        return chatResponse.getText();
+        dialogue.setText(chatResponse.getText());
+        return dialogue;
 
     }
 
