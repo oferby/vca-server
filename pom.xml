@@ -126,6 +126,12 @@
             <version>1.19.0</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>com.google.cloud</groupId>-->
+            <!--<artifactId>google-cloud-translate</artifactId>-->
+            <!--<version>1.66.0</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <build>

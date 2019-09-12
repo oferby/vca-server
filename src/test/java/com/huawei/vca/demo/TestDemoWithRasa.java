@@ -39,4 +39,27 @@ public class TestDemoWithRasa {
         System.out.println(response);
     }
 
+    @Test
+    public void testTranslate(){
+
+//        // Instantiates a client
+//        Translate translate = TranslateOptions.getDefaultInstance().getService();
+//
+//        // The text to translate
+//        String text = "Hello, world!";
+//
+//        // Translates some text into Russian
+//        Translation translation =
+//                translate.translate(
+//                        text,
+//                        Translate.TranslateOption.sourceLanguage("en"),
+//                        Translate.TranslateOption.targetLanguage("ru"));
+//
+//
+//        System.out.printf("Text: %s%n", text);
+//        System.out.printf("Translation: %s%n", translation.getTranslatedText());
+
+
+    }
+
 }
